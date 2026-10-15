@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FF MADA | Gaming Social</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b0b0d;
+  color: white;
+}
+
+header {
+  padding: 20px;
+  background: #151515;
+  border-bottom: 2px solid #e32636;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.logo {
+  color: #ffd700;
+  font-size: 27px;
+  font-weight: bold;
+}
+
+select, button, input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  font-size: 15px;
+}
+
+select {
+  background: #222;
+  color: white;
+}
+
+.hero {
+  text-align: center;
+  padding: 65px 20px;
+  background: linear-gradient(145deg, #260609, #101010 65%);
+}
+
+.hero h1 {
+  font-size: 38px;
+  color: #ffd700;
+  margin-bottom: 15px;
+}
+
+.hero p {
+  color: #ddd;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+button {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.primary {
+  background: #e32636;
+  color: white;
+  border: none;
+  margin: 5px;
+}
+
+.secondary {
+  background: #ffd700;
+  color: #111;
+  border: none;
+  margin: 5px;
+}
+
+section {
+  max-width: 650px;
+  margin: 30px auto;
+  padding: 20px;
+}
+
+.card {
+  background: #171719;
+  border: 1px solid #393939;
+  border-radius: 14px;
+  padding: 24px;
+}
+
+.card h2 {
+  color: #ffd700;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  margin: 8px 0 15px;
+  background: #0d0d0f;
+  color: white;
+}
+
+label {
+  color: #ddd;
+}
+
+#message {
+  margin-top: 15px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #aaa;
+  border-top: 1px solid #333;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 30px; }
+  header { padding: 15px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">🔥 FF MADA</div>
+
+  <select id="language" onchange="changeLanguage()"
+          aria-label="Choose language">
+    <option value="mg">🇲🇬 Malagasy</option>
+    <option value="fr">🇫🇷 Français</option>
+    <option value="en">🇬🇧 English</option>
+  </select>
+</header>
+
+<div class="hero">
+  <h1 id="title">TONGA SOA AO FF MADA!</h1>
+
+  <p id="description">
+    Ny tontolon'ny gaming sy ny communauté Malagasy.<br>
+    Mifandraisa amin'ny namana ary zarao ny talentanao!
+  </p>
+
+  <button class="primary" id="registerButton"
+          onclick="showForm('register')">
+    Hisoratra anarana
+  </button>
+
+  <button class="secondary" id="loginButton"
+          onclick="showForm('login')">
+    Hiditra
+  </button>
+</div>
+
+<section id="account">
+  <div class="card">
+    <h2 id="formTitle">Mamorona kaonty</h2>
+
+    <form id="accountForm">
+      <div id="pseudoGroup">
+        <label id="pseudoLabel" for="pseudo">Pseudo</label>
+        <input id="pseudo" autocomplete="nickname"
+               placeholder="Ampidiro ny pseudo">
+      </div>
+
+      <label id="emailLabel" for="email">Adiresy email</label>
+      <input id="email" type="email" required
+             autocomplete="email" placeholder="email@example.com">
+
+      <label id="passwordLabel" for="password">Mot de passe</label>
+      <input id="password" type="password" required
+             minlength="8" autocomplete="new-password"
+             placeholder="Farafahakeliny 8 caractères">
+
+      <button class="primary" id="submitButton" type="submit">
+        Mamorona kaonty
+      </button>
+    </form>
+
+    <p id="message" role="status"></p>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 FF MADA — Gaming Social Network 🇲🇬</p>
+</footer>
+
+<script>
+const translations = {
+  mg: {
+    title: "TONGA SOA AO FF MADA!",
+    description: "Ny tontolon'ny gaming sy ny communauté Malagasy. Mifandraisa amin'ny namana ary zarao ny talentanao!",
+    register: "Hisoratra anarana",
+    login: "Hiditra",
+    create: "Mamorona kaonty",
+    signIn: "Hiditra amin'ny kaonty",
+    pseudo: "Pseudo",
+    pseudoPlaceholder: "Ampidiro ny pseudo",
+    email: "Adiresy email",
+    password: "Mot de passe",
+    submitRegister: "Mamorona kaonty",
+    submitLogin: "Hiditra",
+    needAccount: "Mila backend sécurisé ny inscription. Tsy mbola voatahiry ny kaontinao.",
+    needLogin: "Mila backend sécurisé ny connexion. Tsy mbola misy kaonty voamarina.",
+    tooShort: "Ny mot de passe dia tsy maintsy misy caractères 8 farafahakeliny.",
+    placeholder: "email@example.com"
+  },
+  fr: {
+    title: "BIENVENUE SUR FF MADA !",
+    description: "L'univers du gaming et de la communauté malgache. Retrouvez vos amis et partagez votre talent !",
+    register: "S'inscrire",
+    login: "Se connecter",
+    create: "Créer un compte",
+    signIn: "Connexion à votre compte",
+    pseudo: "Pseudo",
+    pseudoPlaceholder: "Entrez votre pseudo",
+    email: "Adresse e-mail",
+    password: "Mot de passe",
+    submitRegister: "Créer mon compte",
+    submitLogin: "Se connecter",
+    needAccount: "L'inscription nécessite un backend sécurisé. Votre compte n'a pas été enregistré.",
+    needLogin: "La connexion nécessite un backend sécurisé. Aucun compte n'a été vérifié.",
+    tooShort: "Le mot de passe doit contenir au moins 8 caractères.",
+    placeholder: "email@example.com"
+  },
+  en: {
+    title: "WELCOME TO FF MADA!",
+    description: "The home of gaming and the Malagasy community. Connect with friends and share your talent!",
+    register: "Sign up",
+    login: "Log in",
+    create: "Create an account",
+    signIn: "Log in to your account",
+    pseudo: "Username",
+    pseudoPlaceholder: "Enter your username",
+    email: "Email address",
+    password: "Password",
+    submitRegister: "Create account",
+    submitLogin: "Log in",
+    needAccount: "Registration requires a secure backend. Your account has not been saved.",
+    needLogin: "Login requires a secure backend. No account has been verified.",
+    tooShort: "Your password must contain at least 8 characters.",
+    placeholder: "email@example.com"
+  }
+};
+
+let mode = "register";
+
+function changeLanguage() {
+  const lang = document.getElementById("language").value;
+  const t = translations[lang];
+
+  document.documentElement.lang = lang;
+  document.getElementById("title").textContent = t.title;
+  document.getElementById("description").textContent = t.description;
+  document.getElementById("registerButton").textContent = t.register;
+  document.getElementById("loginButton").textContent = t.login;
+  document.getElementById("pseudoLabel").textContent = t.pseudo;
+  document.getElementById("pseudo").placeholder = t.pseudoPlaceholder;
+  document.getElementById("emailLabel").textContent = t.email;
+  document.getElementById("email").placeholder = t.placeholder;
+  document.getElementById("passwordLabel").textContent = t.password;
+
+  document.getElementById("formTitle").textContent =
+    mode === "register" ? t.create : t.signIn;
+
+  document.getElementById("submitButton").textContent =
+    mode === "register" ? t.submitRegister : t.submitLogin;
+
+  document.getElementById("pseudoGroup").classList.toggle(
+    "hidden", mode === "login"
+  );
+
+  document.getElementById("password").autocomplete =
+    mode === "login" ? "current-password" : "new-password";
+
+  document.getElementById("message").textContent = "";
+}
+
+function showForm(newMode) {
+  mode = newMode;
+  changeLanguage();
+  document.getElementById("account").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+document.getElementById("accountForm").addEventListener(
+  "submit", function(event) {
+    event.preventDefault();
+
+    const lang = document.getElementById("language").value;
+    const t = translations[lang];
+    const password = document.getElementById("password").value;
+
+    if (password.length < 8) {
+      document.getElementById("message").textContent = t.tooShort;
+      return;
+    }
+
+    document.getElementById("message").textContent =
+      mode === "register" ? t.needAccount : t.needLogin;
+  }
+);
+
+changeLanguage();
+</script>
+
+</body>
+</html>
